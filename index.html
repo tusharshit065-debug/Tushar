@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Arty 💖 Will You Be My Valentine?</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family:
+          "Poppins",
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto;
+      }
+
+      :root {
+        --accent: #ff4d6d;
+        --card-bg: rgba(255, 255, 255, 0.15);
+        --card-radius: 25px;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #ff4d6d, #ff8fab);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        color: #fff;
+      }
+
+      .card {
+        background: var(--card-bg);
+        padding: 40px 30px;
+        border-radius: var(--card-radius);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        max-width: 420px;
+        width: 92%;
+        text-align: center;
+        z-index: 1;
+      }
+
+      h1 {
+        font-size: 2.1rem;
+        margin-bottom: 10px;
+      }
+      p {
+        font-size: 1.05rem;
+        line-height: 1.6;
+      }
+
+      .buttons {
+        position: relative;
+        height: 80px;
+        margin-top: 20px;
+      }
+
+      .btn {
+        position: absolute;
+        border: none;
+        padding: 12px 26px;
+        font-size: 1rem;
+        border-radius: 30px;
+        cursor: pointer;
+        background: #fff;
+        color: var(--accent);
+        transition: transform 0.2s ease;
+      }
+
+      .btn:hover {
+        transform: scale(1.07);
+      }
+
+      #yesBtn {
+        left: 50%;
+        top: 10px;
+        transform: translateX(-50%);
+      }
+
+      #noBtn {
+        left: calc(50% + 120px);
+        top: 10px;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.85);
+        color: #333;
+      }
+
+      .message {
+        display: none;
+        margin-top: 20px;
+        font-size: 1.1rem;
+        animation: fadeIn 0.6s ease;
+      }
+
+      .heart {
+        position: fixed;
+        bottom: -40px;
+        font-size: 20px;
+        pointer-events: none;
+        animation: floatUp linear forwards;
+      }
+
+      @keyframes floatUp {
+        from {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateY(-120vh);
+          opacity: 0;
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <audio id="bgMusic" loop>
+      <source
+        src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      />
+    </audio>
+
+    <div class="card">
+      <h1>Arty 💖</h1>
+      <p>
+        Will you be my Valentine? 🌹✨<br />
+        You make my world brighter every single day 🌍💫
+      </p>
+
+      <div class="buttons">
+        <button id="yesBtn" class="btn">Yes 😍</button>
+        <button id="noBtn" class="btn">No 🙈</button>
+      </div>
+
+      <div class="message" id="response"></div>
+    </div>
+
+    <script>
+      const music = document.getElementById("bgMusic");
+      const yesBtn = document.getElementById("yesBtn");
+      const noBtn = document.getElementById("noBtn");
+      const response = document.getElementById("response");
+      const container = document.querySelector(".buttons");
+
+      document.body.addEventListener(
+        "click",
+        () => {
+          music.play().catch(() => {});
+        },
+        { once: true },
+      );
+
+      yesBtn.onclick = () => {
+        response.style.display = "block";
+        response.innerHTML =
+          "You just made my heart the happiest ❤️🥰<br>Today, tomorrow & always 💘";
+        noBtn.disabled = true;
+      };
+
+      function runAway() {
+        const maxX = container.clientWidth - noBtn.offsetWidth;
+        const maxY = container.clientHeight - noBtn.offsetHeight;
+
+        const x = Math.random() * maxX;
+        const y = Math.random() * maxY;
+
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+      }
+
+      noBtn.addEventListener("mouseenter", runAway);
+      noBtn.addEventListener("focus", runAway);
+
+      function spawnHeart() {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.textContent = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = 12 + Math.random() * 20 + "px";
+        heart.style.animationDuration = 4 + Math.random() * 4 + "s";
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 8000);
+      }
+
+      setInterval(spawnHeart, 500);
+    </script>
+  </body>
+</html>
